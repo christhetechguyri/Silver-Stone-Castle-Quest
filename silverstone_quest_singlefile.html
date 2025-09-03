@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Silver Stone Castle Quest — Prototype</title>
+  <style>
+
+:root {
+  --bg: #0b1320;
+  --card: #121a2a;
+  --text: #f7f7fb;
+  --accent: #c9a227;
+  --muted: #9aa3b2;
+  --danger: #c0392b;
+  --ok: #2ecc71;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  background: linear-gradient(180deg, #0b1320, #0b1a2b);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+main#app {
+  padding: 16px;
+  flex: 1;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 16px;
+  max-width: 680px;
+  margin: 0 auto 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+h1, h2, h3 {
+  margin: 0 0 10px 0;
+}
+
+h2 small {
+  color: var(--muted);
+  font-weight: normal;
+  font-size: 0.9em;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+input, select, button, textarea {
+  font: inherit;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+  background: #0f1723;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 12px;
+  outline: none;
+  width: 100%;
+}
+
+button.primary {
+  background: var(--accent);
+  color: #0a0a0a;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #182238;
+  color: var(--text);
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button.link {
+  background: transparent;
+  color: var(--accent);
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+button.danger {
+  color: var(--danger);
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #1d2842;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.space { height: 10px; }
+
+.list { display: grid; gap: 8px; }
+.list .item {
+  background: #0f1723;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.item small { color: var(--muted); }
+
+.progress {
+  width: 100%;
+  height: 10px;
+  background: #101827;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.progress > div {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #c9a227, #ffd76b);
+  transition: width 0.2s ease;
+}
+
+.footer {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+</style>
+</head>
+<body>
+  <header class="header">
+    <img src="logo.png" alt="Silver Stone Castle" class="logo" onerror="this.style.display='none'"/>
+    <h1>The Silver Stone Castle Quest</h1>
+  </header>
+
+  <main id="app">
+    <!-- Screens will be injected here by JS -->
+  </main>
+
+  <footer class="footer">
+    <button id="staffBtn" class="link">Staff</button>
+    <button id="resetBtn" class="link danger">Reset</button>
+  </footer>
+
+  <script>
+    window.QUEST_CONFIG = {
+      staffPasscode: "1234",  // CHANGE THIS FOR PRODUCTION
+      levels: [{"level": 1, "castles_required": 10, "unlock_cost": 0, "prize": "Included with blacklight purchase"}, {"level": 2, "castles_required": 25, "unlock_cost": 25, "prize": "$15 in arcade credits"}, {"level": 3, "castles_required": 50, "unlock_cost": 50, "prize": "1 large pizza and a large soda"}, {"level": 4, "castles_required": 75, "unlock_cost": 75, "prize": "Birthday party for player + 9 friends"}, {"level": 5, "castles_required": 100, "unlock_cost": 100, "prize": "6-month VIP + Wall of Legends + 10% off + 'Your Highness' pin"}],
+      codes: [{"level": 1, "castle_index": 1, "code": "UIWYC"}, {"level": 1, "castle_index": 2, "code": "4TRRY"}, {"level": 1, "castle_index": 3, "code": "WQCWR"}, {"level": 1, "castle_index": 4, "code": "M4RY2"}, {"level": 1, "castle_index": 5, "code": "7V1EL"}, {"level": 1, "castle_index": 6, "code": "9TYVD"}, {"level": 1, "castle_index": 7, "code": "F84Y3"}, {"level": 1, "castle_index": 8, "code": "LTR8L"}, {"level": 1, "castle_index": 9, "code": "JX3BS"}, {"level": 1, "castle_index": 10, "code": "HWI1P"}, {"level": 2, "castle_index": 1, "code": "PATVN"}, {"level": 2, "castle_index": 2, "code": "NGF3F"}, {"level": 2, "castle_index": 3, "code": "4CMHK"}, {"level": 2, "castle_index": 4, "code": "BQQ3N"}, {"level": 2, "castle_index": 5, "code": "K7EUH"}, {"level": 2, "castle_index": 6, "code": "H85KG"}, {"level": 2, "castle_index": 7, "code": "DZWJN"}, {"level": 2, "castle_index": 8, "code": "J2CXX"}, {"level": 2, "castle_index": 9, "code": "TY9GV"}, {"level": 2, "castle_index": 10, "code": "AQCD3"}, {"level": 2, "castle_index": 11, "code": "SU8AP"}, {"level": 2, "castle_index": 12, "code": "IX23L"}, {"level": 2, "castle_index": 13, "code": "8JCK6"}, {"level": 2, "castle_index": 14, "code": "6JV22"}, {"level": 2, "castle_index": 15, "code": "ILVZS"}, {"level": 2, "castle_index": 16, "code": "8XILI"}, {"level": 2, "castle_index": 17, "code": "ABYR4"}, {"level": 2, "castle_index": 18, "code": "IQTQP"}, {"level": 2, "castle_index": 19, "code": "97I27"}, {"level": 2, "castle_index": 20, "code": "IJEFY"}, {"level": 2, "castle_index": 21, "code": "WIWLG"}, {"level": 2, "castle_index": 22, "code": "M8VEQ"}, {"level": 2, "castle_index": 23, "code": "CUTLN"}, {"level": 2, "castle_index": 24, "code": "9914R"}, {"level": 2, "castle_index": 25, "code": "ZHTUA"}, {"level": 3, "castle_index": 1, "code": "VSAZN"}, {"level": 3, "castle_index": 2, "code": "V3VIF"}, {"level": 3, "castle_index": 3, "code": "WQJP5"}, {"level": 3, "castle_index": 4, "code": "SC95S"}, {"level": 3, "castle_index": 5, "code": "D3FI8"}, {"level": 3, "castle_index": 6, "code": "F6IS7"}, {"level": 3, "castle_index": 7, "code": "U1N6J"}, {"level": 3, "castle_index": 8, "code": "BFPU1"}, {"level": 3, "castle_index": 9, "code": "GHGRH"}, {"level": 3, "castle_index": 10, "code": "XSELI"}, {"level": 3, "castle_index": 11, "code": "UCFF2"}, {"level": 3, "castle_index": 12, "code": "NS5QB"}, {"level": 3, "castle_index": 13, "code": "E3VLS"}, {"level": 3, "castle_index": 14, "code": "ZERS6"}, {"level": 3, "castle_index": 15, "code": "JK5V4"}, {"level": 3, "castle_index": 16, "code": "D2LRN"}, {"level": 3, "castle_index": 17, "code": "QFRXY"}, {"level": 3, "castle_index": 18, "code": "I3NE9"}, {"level": 3, "castle_index": 19, "code": "YREAT"}, {"level": 3, "castle_index": 20, "code": "1STDT"}, {"level": 3, "castle_index": 21, "code": "4RIVK"}, {"level": 3, "castle_index": 22, "code": "S94AU"}, {"level": 3, "castle_index": 23, "code": "KCLVA"}, {"level": 3, "castle_index": 24, "code": "UQ122"}, {"level": 3, "castle_index": 25, "code": "BULJC"}, {"level": 3, "castle_index": 26, "code": "SNI2A"}, {"level": 3, "castle_index": 27, "code": "2YW4Y"}, {"level": 3, "castle_index": 28, "code": "BEWGJ"}, {"level": 3, "castle_index": 29, "code": "S7U97"}, {"level": 3, "castle_index": 30, "code": "72ADS"}, {"level": 3, "castle_index": 31, "code": "KR58Z"}, {"level": 3, "castle_index": 32, "code": "VG4BB"}, {"level": 3, "castle_index": 33, "code": "2C1US"}, {"level": 3, "castle_index": 34, "code": "7IKRA"}, {"level": 3, "castle_index": 35, "code": "JK5D7"}, {"level": 3, "castle_index": 36, "code": "BRPKN"}, {"level": 3, "castle_index": 37, "code": "2QSQU"}, {"level": 3, "castle_index": 38, "code": "KXZP2"}, {"level": 3, "castle_index": 39, "code": "TS1ET"}, {"level": 3, "castle_index": 40, "code": "D86FH"}, {"level": 3, "castle_index": 41, "code": "EQ1YJ"}, {"level": 3, "castle_index": 42, "code": "TJEC5"}, {"level": 3, "castle_index": 43, "code": "XA475"}, {"level": 3, "castle_index": 44, "code": "PMEEM"}, {"level": 3, "castle_index": 45, "code": "U7X9K"}, {"level": 3, "castle_index": 46, "code": "QC8VB"}, {"level": 3, "castle_index": 47, "code": "YIEXJ"}, {"level": 3, "castle_index": 48, "code": "ICSML"}, {"level": 3, "castle_index": 49, "code": "PAN6D"}, {"level": 3, "castle_index": 50, "code": "TJJVA"}, {"level": 4, "castle_index": 1, "code": "BAHKW"}, {"level": 4, "castle_index": 2, "code": "QYUNI"}, {"level": 4, "castle_index": 3, "code": "U149L"}, {"level": 4, "castle_index": 4, "code": "B68F2"}, {"level": 4, "castle_index": 5, "code": "KLZM6"}, {"level": 4, "castle_index": 6, "code": "DISU2"}, {"level": 4, "castle_index": 7, "code": "X2FP1"}, {"level": 4, "castle_index": 8, "code": "2ZETW"}, {"level": 4, "castle_index": 9, "code": "UK6JU"}, {"level": 4, "castle_index": 10, "code": "B7E3L"}, {"level": 4, "castle_index": 11, "code": "CSSVX"}, {"level": 4, "castle_index": 12, "code": "IHAUE"}, {"level": 4, "castle_index": 13, "code": "MVS5N"}, {"level": 4, "castle_index": 14, "code": "XCL73"}, {"level": 4, "castle_index": 15, "code": "KS9B3"}, {"level": 4, "castle_index": 16, "code": "RT5BD"}, {"level": 4, "castle_index": 17, "code": "S2KPH"}, {"level": 4, "castle_index": 18, "code": "9LB4L"}, {"level": 4, "castle_index": 19, "code": "6AQJK"}, {"level": 4, "castle_index": 20, "code": "NRVBM"}, {"level": 4, "castle_index": 21, "code": "VM8GE"}, {"level": 4, "castle_index": 22, "code": "44QHC"}, {"level": 4, "castle_index": 23, "code": "1XTCY"}, {"level": 4, "castle_index": 24, "code": "BN4TX"}, {"level": 4, "castle_index": 25, "code": "T44IY"}, {"level": 4, "castle_index": 26, "code": "WIK6Z"}, {"level": 4, "castle_index": 27, "code": "UEMF2"}, {"level": 4, "castle_index": 28, "code": "S8DXM"}, {"level": 4, "castle_index": 29, "code": "E6PDT"}, {"level": 4, "castle_index": 30, "code": "6T8YZ"}, {"level": 4, "castle_index": 31, "code": "EIEXY"}, {"level": 4, "castle_index": 32, "code": "TA95Y"}, {"level": 4, "castle_index": 33, "code": "AQ6NN"}, {"level": 4, "castle_index": 34, "code": "DCBFA"}, {"level": 4, "castle_index": 35, "code": "EJZIZ"}, {"level": 4, "castle_index": 36, "code": "IX673"}, {"level": 4, "castle_index": 37, "code": "QSFHM"}, {"level": 4, "castle_index": 38, "code": "MUMAB"}, {"level": 4, "castle_index": 39, "code": "HN6PW"}, {"level": 4, "castle_index": 40, "code": "4JNVS"}, {"level": 4, "castle_index": 41, "code": "V2HCI"}, {"level": 4, "castle_index": 42, "code": "MHJCR"}, {"level": 4, "castle_index": 43, "code": "FRA7J"}, {"level": 4, "castle_index": 44, "code": "XTZUF"}, {"level": 4, "castle_index": 45, "code": "9P7K6"}, {"level": 4, "castle_index": 46, "code": "8I5KP"}, {"level": 4, "castle_index": 47, "code": "R8WHZ"}, {"level": 4, "castle_index": 48, "code": "E8GNA"}, {"level": 4, "castle_index": 49, "code": "RY2KY"}, {"level": 4, "castle_index": 50, "code": "PKGDU"}, {"level": 4, "castle_index": 51, "code": "IRM4P"}, {"level": 4, "castle_index": 52, "code": "1SS18"}, {"level": 4, "castle_index": 53, "code": "1JFGS"}, {"level": 4, "castle_index": 54, "code": "IUMPB"}, {"level": 4, "castle_index": 55, "code": "3I1H1"}, {"level": 4, "castle_index": 56, "code": "AFD6S"}, {"level": 4, "castle_index": 57, "code": "76P6Y"}, {"level": 4, "castle_index": 58, "code": "EYHJM"}, {"level": 4, "castle_index": 59, "code": "UWA69"}, {"level": 4, "castle_index": 60, "code": "Q9AMP"}, {"level": 4, "castle_index": 61, "code": "KLXGB"}, {"level": 4, "castle_index": 62, "code": "B77RJ"}, {"level": 4, "castle_index": 63, "code": "XZM4P"}, {"level": 4, "castle_index": 64, "code": "HFMP4"}, {"level": 4, "castle_index": 65, "code": "CSDCL"}, {"level": 4, "castle_index": 66, "code": "UK8QV"}, {"level": 4, "castle_index": 67, "code": "XC2A9"}, {"level": 4, "castle_index": 68, "code": "3D9RM"}, {"level": 4, "castle_index": 69, "code": "MQQCS"}, {"level": 4, "castle_index": 70, "code": "BCMFW"}, {"level": 4, "castle_index": 71, "code": "4M68Y"}, {"level": 4, "castle_index": 72, "code": "WKYA6"}, {"level": 4, "castle_index": 73, "code": "LRSXG"}, {"level": 4, "castle_index": 74, "code": "9GWAH"}, {"level": 4, "castle_index": 75, "code": "W5DMX"}, {"level": 5, "castle_index": 1, "code": "KV1RX"}, {"level": 5, "castle_index": 2, "code": "W4QJQ"}, {"level": 5, "castle_index": 3, "code": "4BVWA"}, {"level": 5, "castle_index": 4, "code": "5WVR5"}, {"level": 5, "castle_index": 5, "code": "T9FPV"}, {"level": 5, "castle_index": 6, "code": "BSFPZ"}, {"level": 5, "castle_index": 7, "code": "T92EW"}, {"level": 5, "castle_index": 8, "code": "9KSYY"}, {"level": 5, "castle_index": 9, "code": "NC5JX"}, {"level": 5, "castle_index": 10, "code": "MQCS6"}, {"level": 5, "castle_index": 11, "code": "FPUFD"}, {"level": 5, "castle_index": 12, "code": "4ARNJ"}, {"level": 5, "castle_index": 13, "code": "ZP8KR"}, {"level": 5, "castle_index": 14, "code": "92VCB"}, {"level": 5, "castle_index": 15, "code": "RWZLI"}, {"level": 5, "castle_index": 16, "code": "EEFPC"}, {"level": 5, "castle_index": 17, "code": "6LQ4L"}, {"level": 5, "castle_index": 18, "code": "FA1Z7"}, {"level": 5, "castle_index": 19, "code": "X69GS"}, {"level": 5, "castle_index": 20, "code": "AMUN8"}, {"level": 5, "castle_index": 21, "code": "J2RAP"}, {"level": 5, "castle_index": 22, "code": "R47JQ"}, {"level": 5, "castle_index": 23, "code": "39S5Y"}, {"level": 5, "castle_index": 24, "code": "PB52E"}, {"level": 5, "castle_index": 25, "code": "RLX5M"}, {"level": 5, "castle_index": 26, "code": "6HXSX"}, {"level": 5, "castle_index": 27, "code": "H2JJX"}, {"level": 5, "castle_index": 28, "code": "RLTI5"}, {"level": 5, "castle_index": 29, "code": "ACP5J"}, {"level": 5, "castle_index": 30, "code": "VNLDX"}, {"level": 5, "castle_index": 31, "code": "JRVXD"}, {"level": 5, "castle_index": 32, "code": "L5KV1"}, {"level": 5, "castle_index": 33, "code": "MUSSZ"}, {"level": 5, "castle_index": 34, "code": "33HXM"}, {"level": 5, "castle_index": 35, "code": "A3UA8"}, {"level": 5, "castle_index": 36, "code": "6DTF6"}, {"level": 5, "castle_index": 37, "code": "QCMYM"}, {"level": 5, "castle_index": 38, "code": "RUG73"}, {"level": 5, "castle_index": 39, "code": "HYVA7"}, {"level": 5, "castle_index": 40, "code": "NE218"}, {"level": 5, "castle_index": 41, "code": "TGJIU"}, {"level": 5, "castle_index": 42, "code": "ZFB6R"}, {"level": 5, "castle_index": 43, "code": "L6U1L"}, {"level": 5, "castle_index": 44, "code": "ALI5M"}, {"level": 5, "castle_index": 45, "code": "9U3H7"}, {"level": 5, "castle_index": 46, "code": "ZMWMV"}, {"level": 5, "castle_index": 47, "code": "ZS9J8"}, {"level": 5, "castle_index": 48, "code": "UB8AJ"}, {"level": 5, "castle_index": 49, "code": "9RVQR"}, {"level": 5, "castle_index": 50, "code": "91F76"}, {"level": 5, "castle_index": 51, "code": "PPQFG"}, {"level": 5, "castle_index": 52, "code": "4J39P"}, {"level": 5, "castle_index": 53, "code": "I8DVD"}, {"level": 5, "castle_index": 54, "code": "UC1HV"}, {"level": 5, "castle_index": 55, "code": "JSM4J"}, {"level": 5, "castle_index": 56, "code": "4ISK7"}, {"level": 5, "castle_index": 57, "code": "4I5TW"}, {"level": 5, "castle_index": 58, "code": "1LFRJ"}, {"level": 5, "castle_index": 59, "code": "4H1KL"}, {"level": 5, "castle_index": 60, "code": "3MNTH"}, {"level": 5, "castle_index": 61, "code": "58JVL"}, {"level": 5, "castle_index": 62, "code": "13KMC"}, {"level": 5, "castle_index": 63, "code": "E1WR5"}, {"level": 5, "castle_index": 64, "code": "4W2QE"}, {"level": 5, "castle_index": 65, "code": "PEBY4"}, {"level": 5, "castle_index": 66, "code": "1ZJ6R"}, {"level": 5, "castle_index": 67, "code": "P7P6M"}, {"level": 5, "castle_index": 68, "code": "W7JCH"}, {"level": 5, "castle_index": 69, "code": "NKUV7"}, {"level": 5, "castle_index": 70, "code": "T451T"}, {"level": 5, "castle_index": 71, "code": "98DN7"}, {"level": 5, "castle_index": 72, "code": "SG3AT"}, {"level": 5, "castle_index": 73, "code": "FFT8Q"}, {"level": 5, "castle_index": 74, "code": "8LD7B"}, {"level": 5, "castle_index": 75, "code": "T8SSI"}, {"level": 5, "castle_index": 76, "code": "DFY9D"}, {"level": 5, "castle_index": 77, "code": "N9TYA"}, {"level": 5, "castle_index": 78, "code": "CMMF4"}, {"level": 5, "castle_index": 79, "code": "MIDBT"}, {"level": 5, "castle_index": 80, "code": "F46FT"}, {"level": 5, "castle_index": 81, "code": "DQA7L"}, {"level": 5, "castle_index": 82, "code": "D67ES"}, {"level": 5, "castle_index": 83, "code": "MKAW8"}, {"level": 5, "castle_index": 84, "code": "GWRPZ"}, {"level": 5, "castle_index": 85, "code": "SZNEM"}, {"level": 5, "castle_index": 86, "code": "LHABQ"}, {"level": 5, "castle_index": 87, "code": "VTLH7"}, {"level": 5, "castle_index": 88, "code": "A2K9E"}, {"level": 5, "castle_index": 89, "code": "PS65C"}, {"level": 5, "castle_index": 90, "code": "R14NF"}, {"level": 5, "castle_index": 91, "code": "HWT7X"}, {"level": 5, "castle_index": 92, "code": "YEC1Y"}, {"level": 5, "castle_index": 93, "code": "AVSF8"}, {"level": 5, "castle_index": 94, "code": "5BQP9"}, {"level": 5, "castle_index": 95, "code": "XYHDL"}, {"level": 5, "castle_index": 96, "code": "8D8SF"}, {"level": 5, "castle_index": 97, "code": "PWUAH"}, {"level": 5, "castle_index": 98, "code": "UIJRZ"}, {"level": 5, "castle_index": 99, "code": "2HPTP"}, {"level": 5, "castle_index": 100, "code": "YE4UB"}]
+    };
+  </script>
+  <script>
+
+(function(){
+  const $ = (sel, el=document) => el.querySelector(sel);
+  const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+
+  const state = {
+    user: JSON.parse(localStorage.getItem('ssc_user') || 'null'),
+    progress: JSON.parse(localStorage.getItem('ssc_progress') || '{"currentLevel":0,"found":{}}'),
+  };
+
+  const cfg = window.QUEST_CONFIG;
+  const codesByLevel = cfg.codes.reduce((acc, row) => {
+    if(!acc[row.level]) acc[row.level] = [];
+    acc[row.level].push(row.code);
+    return acc;
+  }, {});
+
+  function save(){
+    localStorage.setItem('ssc_user', JSON.stringify(state.user));
+    localStorage.setItem('ssc_progress', JSON.stringify(state.progress));
+  }
+
+  function resetAll(){
+    localStorage.removeItem('ssc_user');
+    localStorage.removeItem('ssc_progress');
+    state.user = null;
+    state.progress = { currentLevel: 0, found: {} };
+    route();
+  }
+
+  // Screens
+  function screenWelcome(){
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <h2>Welcome, Adventurer</h2>
+      <p>Begin your quest to find hidden castles across Silver Stone Castle. You'll need a blacklight object to participate.</p>
+      <div class="space"></div>
+      <button class="primary" id="start">Get Started</button>
+    `;
+    el.querySelector('#start').onclick = () => route('purchase');
+    return el;
+  }
+
+  function screenPurchase(){
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <h2>Purchase Blacklight</h2>
+      <p class="badge">Required to begin Level 1</p>
+      <div class="space"></div>
+      <div class="field">
+        <label>Your full name</label>
+        <input id="name" type="text" placeholder="Jane Doe" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="email" type="email" placeholder="you@example.com" />
+      </div>
+      <div class="field">
+        <label>Phone (optional)</label>
+        <input id="phone" type="text" placeholder="(555) 555-5555" />
+      </div>
+      <div class="space"></div>
+      <div class="row">
+        <button class="primary" id="activate">Activate & Begin</button>
+        <button class="secondary" id="back">Back</button>
+      </div>
+    `;
+    el.querySelector('#back').onclick = () => route();
+    el.querySelector('#activate').onclick = () => {
+      const name = $('#name', el).value.trim();
+      const email = $('#email', el).value.trim();
+      const phone = $('#phone', el).value.trim();
+      if(!name || !email){
+        alert('Please enter your name and email to activate.');
+        return;
+      }
+      state.user = { name, email, phone, blacklightPurchased: true, registeredAt: new Date().toISOString() };
+      state.progress.currentLevel = 1;
+      state.progress.found['1'] = [];
+      save();
+      route('level');
+    };
+    return el;
+  }
+
+  function screenLevel(){
+    const level = state.progress.currentLevel || 1;
+    const total = (codesByLevel[level] || []).length;
+    const found = state.progress.found[level] || [];
+    const complete = found.length >= total;
+
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <h2>Level ${level} <small>${found.length}/${total} castles found</small></h2>
+      <div class="progress"><div style="width:${Math.min(100, (found.length/total)*100)}%"></div></div>
+      <div class="space"></div>
+      ${ complete ? `
+        <p>🎉 Level ${level} completed!</p>
+        <p class="badge">Proceed to the kiosk to unlock the next level.</p>
+        <div class="space"></div>
+        <button class="primary" id="kiosk">Go to Kiosk</button>
+      ` : `
+        <div class="field">
+          <label>Enter castle code for Level ${level}</label>
+          <input id="code" type="text" placeholder="Enter 5-character code" maxlength="5" />
+        </div>
+        <div class="row">
+          <button class="primary" id="submit">Submit Code</button>
+          <button class="secondary" id="showFound">Show Found</button>
+        </div>
+        <div class="space"></div>
+        <div class="list" id="foundList" style="display:none"></div>
+      `}
+    `;
+
+    if(complete){
+      el.querySelector('#kiosk').onclick = () => route('kiosk');
+    } else {
+      el.querySelector('#showFound').onclick = () => {
+        const list = $('#foundList', el);
+        list.style.display = list.style.display === 'none' ? 'grid' : 'none';
+        renderFound(list, found);
+      };
+      el.querySelector('#submit').onclick = () => {
+        const input = $('#code', el);
+        const code = input.value.trim().toUpperCase();
+        if(!code){ alert('Enter a code.'); return; }
+        // Validate: code must belong to current level and not already found
+        if(!codesByLevel[level].includes(code)){
+          alert('Invalid code for this level.');
+          return;
+        }
+        if(found.includes(code)){
+          alert('You already entered this code.');
+          return;
+        }
+        found.push(code);
+        state.progress.found[level] = found;
+        save();
+        route('level');
+      };
+    }
+
+    return el;
+  }
+
+  function renderFound(container, found){
+    container.innerHTML = '';
+    found.forEach((code, idx) => {
+      const row = document.createElement('div');
+      row.className = 'item';
+      row.innerHTML = `<strong>${code}</strong><small>#${idx+1}</small>`;
+      container.appendChild(row);
+    });
+  }
+
+  function screenKiosk(){
+    const level = state.progress.currentLevel;
+    const maxLevel = Math.max(...Object.keys(codesByLevel).map(Number));
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <h2>Kiosk — Unlock Next Level</h2>
+      <p>Show this screen to staff to unlock the next level after payment.</p>
+      <p class="badge">Current level: ${level} / Max: ${maxLevel}</p>
+      <div class="space"></div>
+      <div class="field">
+        <label>Staff Passcode</label>
+        <input id="pass" type="password" placeholder="Enter staff passcode" />
+      </div>
+      <div class="row">
+        <button class="primary" id="unlock">Unlock Next Level</button>
+        <button class="secondary" id="back">Back</button>
+      </div>
+    `;
+    el.querySelector('#back').onclick = () => route('level');
+    el.querySelector('#unlock').onclick = () => {
+      const val = $('#pass', el).value;
+      if(val !== cfg.staffPasscode){
+        alert('Incorrect passcode.');
+        return;
+      }
+      const next = level + 1;
+      if(!codesByLevel[next]){
+        alert('You have completed all levels. Congratulations!');
+        return;
+      }
+      // Unlock next level
+      state.progress.currentLevel = next;
+      if(!state.progress.found[next]) state.progress.found[next] = [];
+      save();
+      alert(`Level ${next} unlocked!`);
+      route('level');
+    };
+    return el;
+  }
+
+  function screenStaffLogin(){
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `
+      <h2>Staff Tools</h2>
+      <p class="badge">Admin / Kiosk utilities</p>
+      <div class="field">
+        <label>Passcode</label>
+        <input id="pass" type="password" placeholder="Enter staff passcode" />
+      </div>
+      <div class="row">
+        <button class="primary" id="enter">Enter</button>
+        <button class="secondary" id="back">Back</button>
+      </div>
+    `;
+    el.querySelector('#back').onclick = () => route('level');
+    el.querySelector('#enter').onclick = () => {
+      const val = $('#pass', el).value;
+      if(val !== cfg.staffPasscode){
+        alert('Incorrect passcode.');
+        return;
+      }
+      route('staff');
+    };
+    return el;
+  }
+
+  function screenStaff(){
+    const el = document.createElement('div');
+    el.className = 'card';
+    const u = state.user;
+    const lvl = state.progress.currentLevel || 0;
+    el.innerHTML = `
+      <h2>Staff Dashboard</h2>
+      <div class="list">
+        <div class="item"><span>User</span><strong>${u ? (u.name + " (" + u.email + ")") : "No user"}</strong></div>
+        <div class="item"><span>Current Level</span><strong>${lvl}</strong></div>
+      </div>
+      <div class="space"></div>
+      <div class="row">
+        <button class="primary" id="unlock">Unlock Next Level</button>
+        <button class="secondary" id="codes">View Codes</button>
+      </div>
+      <div class="space"></div>
+      <div id="codesBox" class="list" style="display:none"></div>
+    `;
+    el.querySelector('#unlock').onclick = () => {
+      const next = lvl + 1;
+      if(!cfg.codes.some(r => r.level === next)){
+        alert('All levels complete.');
+        return;
+      }
+      state.progress.currentLevel = next;
+      if(!state.progress.found[next]) state.progress.found[next] = [];
+      save();
+      alert(`Level ${next} unlocked.`);
+      route('level');
+    };
+    el.querySelector('#codes').onclick = () => {
+      const box = $('#codesBox', el);
+      box.style.display = box.style.display === 'none' ? 'grid' : 'none';
+      if(box.innerHTML.trim() === ''){
+        // show current level codes for verification
+        const lvl = state.progress.currentLevel || 1;
+        const codes = (cfg.codes.filter(r => r.level === lvl)).map(r => r.code);
+        codes.forEach((c, i) => {
+          const row = document.createElement('div');
+          row.className = 'item';
+          row.innerHTML = `<strong>${c}</strong><small>Level ${lvl} #${i+1}</small>`;
+          box.appendChild(row);
+        });
+      }
+    };
+    return el;
+  }
+
+  function route(view){
+    const app = document.getElementById('app');
+    app.innerHTML = '';
+    if(!state.user){
+      app.appendChild(screenWelcome());
+      return;
+    }
+    if(state.progress.currentLevel === 0){
+      app.appendChild(screenWelcome());
+      return;
+    }
+    switch(view){
+      case 'purchase': app.appendChild(screenPurchase()); break;
+      case 'kiosk': app.appendChild(screenKiosk()); break;
+      case 'staff-login': app.appendChild(screenStaffLogin()); break;
+      case 'staff': app.appendChild(screenStaff()); break;
+      case 'level':
+      default: app.appendChild(screenLevel()); break;
+    }
+  }
+
+  // footer buttons
+  document.getElementById('resetBtn').onclick = resetAll;
+  document.getElementById('staffBtn').onclick = () => route('staff-login');
+
+  // Initial route
+  route();
+})();
+
+</script>
+</body>
+</html>
